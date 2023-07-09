@@ -1,0 +1,37 @@
+<% layout('layouts/boilerplate')%>
+<div id="cluster-map" ></div>
+<h1>All Campgrounds</h1>
+<div><a href="/campgrounds/new">Add Campground</a></div>
+
+<%for(let campground of campgrounds){%>
+<div class="card mb-3">
+  <div class="row">
+    <div class="col-md-4">
+      <% if(campground.image.length){%>
+      <img crossorigin="anonymous" class="img-fluid" src="<%=campground.image[0].url%>" alt=""  />
+      <% }else{ %>
+      <img crossorigin="anonymous" class="img-fluid" src='https://res.cloudinary.com/dpj3kgmu7/image/upload/v1688807907/YelpCamp/cchty5jfml8vmef8jq2x.jpg' alt="" />
+      <% } %>
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title"><%=campground.title%></h5>
+        <p class="card-text"><%=campground.description%></p>
+        <p class="card-text">
+          <div class="text-muted"><%=campground.location%></div>
+        </p>
+        <a class="btn btn-primary" href="/campgrounds/<%=campground._id%>"> View <%=campground.title%></a>
+      </div>
+    </div>
+  </div>
+</div>
+<%}%>
+
+
+
+<script>
+  const mapToken = "<%- process.env.MAPBOX_TOKEN%>";
+//geo seems to be under features , and set the virtual properties true
+  const campgrounds = {features: <%-JSON.stringify(campgrounds)%>};
+</script>
+<script src="/javascripts/clusterMap.js"></script>
